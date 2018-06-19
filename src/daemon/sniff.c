@@ -17,6 +17,34 @@ static char	*find_device(void)
 	return (line_without_newline);
 }
 
+static void	add_ip(struct in_addr ip)
+{
+	FILE *f;
+
+	f = fopen(LOG_FILE_IP, "r+");
+	if (f == 0)
+	{
+		f = fopen(LOG_FILE_IP, "w+");
+		fprintf(f, "%s 1\n", inet_ntoa(ip));
+		fclose(f);
+		return ;
+	}
+	t_ipfile *ip_info = parse_ip_file(f, ip);
+	fclose(f);
+	f = fopen(LOG_FILE_IP, "w+");
+	// sort_ip_info(ip_info);
+	// write_ip_info(ip_info);
+	for(t_ipfile *ip_info_tmp = ip_info; ip_info_tmp; ip_info_tmp = ip_info_tmp->next)
+	{
+		struct in_addr ip_addr;
+		ip_addr.s_addr = ip_info_tmp->ip;
+		fprintf(f, "%s %zu\n", inet_ntoa(ip_addr), ip_info_tmp->pack_num);
+	}
+
+	free(ip_info);
+	fclose(f);
+}
+
 static void callback(u_char *args, const struct pcap_pkthdr *pkthdr, const u_char 
 	*packet)
 {
@@ -25,8 +53,9 @@ static void callback(u_char *args, const struct pcap_pkthdr *pkthdr, const u_cha
 	real_num++;
 	char *str_num = ft_itoa(real_num);
 	set_value_of_key_from_file((const char *)args, LOG_FILE_INTERFACES, str_num, num_from_file);
-	// size_t num_to_file = set_value_of_key_from_file((const char *)args, LOG_FILE_INTERFACES, num_from_file);
-	// printf("%s\n", num_from_file);
+
+	struct ip *ip = (struct ip*)(packet + 14);
+	add_ip(ip->ip_dst);
 	// fprintf(stdout, "%3d, ", count);
 	// fflush(stdout);
 	// printf("%s\n", str);

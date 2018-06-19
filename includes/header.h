@@ -28,6 +28,13 @@
 #define LOG_FILE_IP "/tmp/packtoring_ip.log"
 
 
+typedef struct	s_ipfile
+{
+	uint32_t		ip;
+	size_t		pack_num;
+	struct s_ipfile *next;
+}				t_ipfile;
+
 //deamon
 // initing_daemon.c
 int	initing_deamon(void);
@@ -37,9 +44,11 @@ int	processing(void);
 void	check_set_pid_file(void);
 void	set_value_of_key_from_file(const char *key, char *filename, char *new_value, char *old_value);
 char	*get_value_of_key_from_file(const char *key, char *filename);
+t_ipfile *parse_ip_file(FILE *f, struct in_addr ip);
 
 // log_file.c
 void	initing_log_file(void);
+void initing_cur_log_file(void);
 
 //  sniff.c
 void	sniff(void);
@@ -55,6 +64,7 @@ char	*ft_itoa(int n);
 
 // utils.c
 void	blocking_signals(void);
+void	sort_ip_info(t_ipfile *ip_info);
 
 
 

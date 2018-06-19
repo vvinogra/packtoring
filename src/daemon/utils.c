@@ -42,3 +42,32 @@ char	*get_file_content(const char *const filename)
 	close(fd);
 	return (file_content);
 }
+
+// static t_ipfile *copy_t_ipfile(t_ipfile *ip_info)
+// {
+// 	t_ipfile *ret;
+
+// 	ret->ip = ip_info->ip;
+// 	ret->pack_num = ip_info->pack_num;
+// 	ret->next = ip_info->next;
+// 	return (ret);
+// }
+
+void	sort_ip_info(t_ipfile *ip_info)
+{
+	// t_ipfile *ptr1 = ip_info;
+	// t_ipfile *ptr2 = ip_info;
+
+	for(t_ipfile *ptr1 = ip_info; ptr1; ptr1 = ptr1->next)
+	{
+		for(t_ipfile *ptr2 = ptr1; ptr2; ptr2 = ptr2->next)
+		{
+			if (ptr1->ip > ptr2->ip)
+			{
+				t_ipfile *tmp = ptr1;
+				ptr1 = ptr2;
+				ptr2 = tmp;
+			}
+		}
+	}
+}
