@@ -4,8 +4,7 @@ int	initing_deamon()
 {
 	int pid;
 
-	// pid = fork();
-	pid = 0;
+	pid = fork();
 	if (pid == -1)
 	{
 		printf("Error: Start Daemon failed (%s)\n", strerror(errno));
@@ -31,7 +30,5 @@ int	processing()
 	initing_cur_log_file();
 	check_set_pid_file();
 	sniff();
-	// while (1)
-	// 	;
 	return 0;
 }

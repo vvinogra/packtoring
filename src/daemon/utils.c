@@ -43,30 +43,26 @@ char	*get_file_content(const char *const filename)
 	return (file_content);
 }
 
-// static t_ipfile *copy_t_ipfile(t_ipfile *ip_info)
-// {
-// 	t_ipfile *ret;
+static void	swap_data(t_ipfile *a, t_ipfile *b)
+{
+	uint32_t		ip = a->ip;
+	size_t		pack_num = a->pack_num;
+	a->ip = b->ip;
+	a->pack_num = b->pack_num;
+	b->ip = ip;
+	b->pack_num = pack_num;
 
-// 	ret->ip = ip_info->ip;
-// 	ret->pack_num = ip_info->pack_num;
-// 	ret->next = ip_info->next;
-// 	return (ret);
-// }
+}
 
 void	sort_ip_info(t_ipfile *ip_info)
 {
-	// t_ipfile *ptr1 = ip_info;
-	// t_ipfile *ptr2 = ip_info;
-
 	for(t_ipfile *ptr1 = ip_info; ptr1; ptr1 = ptr1->next)
 	{
 		for(t_ipfile *ptr2 = ptr1; ptr2; ptr2 = ptr2->next)
 		{
 			if (ptr1->ip > ptr2->ip)
 			{
-				t_ipfile *tmp = ptr1;
-				ptr1 = ptr2;
-				ptr2 = tmp;
+				swap_data(ptr1, ptr2);
 			}
 		}
 	}

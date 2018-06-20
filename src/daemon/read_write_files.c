@@ -64,23 +64,6 @@ void	set_value_of_key_from_file(const char *key, char *filename, char *new_value
 	fclose(f);
 }
 
-// static t_ipfile *parse_line_ip_file(char *line, struct in_addr ip_to_add)
-// {
-// 	t_ipfile *line_ip;
-
-// 	line_ip = malloc(sizeof(t_ipfile));
-// 	char *first_part = strtok(line, " ");
-// 	inet_pton(AF_INET, first_part, &(line_ip->ip));
-// 	char *second_part = strtok(NULL, " ");
-// 	line_ip->pack_num = atoi(second_part);
-// 	if (strcmp(second_part, inet_ntoa(ip_to_add)) == 0)
-// 	{
-// 		line_ip->pack_num++;
-// 		ip_found = true;
-// 	}
-// 	return (line_ip);
-// }
-
 t_ipfile *parse_ip_file(FILE *f, struct in_addr ip_to_add)
 {
 	t_ipfile *head;
@@ -112,6 +95,7 @@ t_ipfile *parse_ip_file(FILE *f, struct in_addr ip_to_add)
 		else
 			current = current->next = node;
 	}
+	free(line);
 	if (ip_found == false)
 	{
 		t_ipfile *node = malloc(sizeof(t_ipfile));
@@ -123,60 +107,5 @@ t_ipfile *parse_ip_file(FILE *f, struct in_addr ip_to_add)
 		else
 			current = current->next = node;
 	}
-	// for(t_ipfile *ip_info_tmp = head; ip_info_tmp; ip_info_tmp = ip_info_tmp->next)
-	// {
-	// 	struct in_addr ip_addr;
-	// 	ip_addr.s_addr = ip_info_tmp->ip;
-	// 	fprintf(f, "%s %zu\n", inet_ntoa(ip_addr), ip_info_tmp->pack_num);
-	// }
-	// exit(0);
 	return (head);
 }
-
-// t_ipfile *parse_ip_file(FILE *f, struct in_addr ip_to_add)
-// {
-// 	t_ipfile *ip = malloc(sizeof(t_ipfile));
-// 	t_ipfile *ptr = ip;
-// 	bool	ip_found = false;
-
-// 	char *line = 0;
-// 	size_t len = 0;
-// 	while (getline(&line, &len, f) > 0)
-// 	{
-// 		char *first_part = strtok(line, " ");
-// 		inet_pton(AF_INET, first_part, &(ptr->ip));
-// 		char *second_part = strtok(NULL, " ");
-// 		ptr->pack_num = atoi(second_part);
-// 		if (strcmp(second_part, inet_ntoa(ip_to_add)) == 0)
-// 		{
-// 			ptr->pack_num++;
-// 			ip_found = true;
-// 		}
-// 		ptr->next = malloc(sizeof(t_ipfile));
-// 		ptr = ptr->next;
-// 		ptr->next = 0;
-// 		free(line);
-// 		line = 0;
-// 		len = 0;
-// 	}
-// 	if (ip_found == true)
-// 	{
-// 		inet_pton(AF_INET, inet_ntoa(ip_to_add), &(ptr->ip));
-// 		ptr->pack_num = 1;
-// 	}
-// 	else
-// 	{
-// 		ptr->ip = 0;
-// 		ptr->pack_num = 0;
-// 		free(ptr);
-// 		ptr = 0;
-// 	}
-// 	for(t_ipfile *ip_info_tmp = ip; ip_info_tmp; ip_info_tmp = ip_info_tmp->next)
-// 	{
-// 		struct in_addr ip_addr;
-// 		ip_addr.s_addr = ip_info_tmp->ip;
-// 		fprintf(f, "%s %zu\n", inet_ntoa(ip_addr), ip_info_tmp->pack_num);
-// 	}
-// 	exit(0);
-// 	return (ip);
-// }

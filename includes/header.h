@@ -66,10 +66,8 @@ char	*ft_itoa(int n);
 void	blocking_signals(void);
 void	sort_ip_info(t_ipfile *ip_info);
 
-
-
-
 // validation.c
-void	valid_interface_arg(const char *interface);
+void	validation(int argc, char const *argv[]);
+// void	valid_interface_arg(const char *interface);
 
 #endif
