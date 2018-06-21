@@ -84,5 +84,4 @@ void	show_current_iface(void);
 void	reset_info(char *reset);
 void	uninstall(void);
 
-
 #endif
