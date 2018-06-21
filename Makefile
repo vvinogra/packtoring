@@ -26,7 +26,7 @@ BIN_CLI = $(addprefix $(BINDIR_CLI), $(CLIFILES:.c=.o)) $(DAEMONFILES_FORCLI)
 all: $(DAEMON_NAME) $(CLI_NAME)
 
 $(CLI_NAME): $(BINDIR_CLI) $(BIN_CLI) 
-	$(CC) $(FLAGS) -lpcap -o $(CLI_NAME) $(BIN_CLI) -I $(INCLUDE)
+	$(CC) $(FLAGS) -o $(CLI_NAME) $(BIN_CLI) -I $(INCLUDE) -lpcap
 
 $(BINDIR_CLI):
 	@if [ ! -d "$(BINDIR_CLI)" ]; then mkdir $(BINDIR_CLI); fi
@@ -36,7 +36,7 @@ $(BINDIR_CLI)%.o: $(CLIDIR)%.c $(HEADER_RELATION)
 
 
 $(DAEMON_NAME): $(BINDIR_DAEMON) $(BIN_DAEMON)
-	$(CC) $(FLAGS) -lpcap -o $(DAEMON_NAME) $(BIN_DAEMON) -I $(INCLUDE)
+	$(CC) $(FLAGS) -o $(DAEMON_NAME) $(BIN_DAEMON) -I $(INCLUDE) -lpcap
 
 $(BINDIR_DAEMON):
 	@if [ ! -d "$(BINDIR_DAEMON)" ]; then mkdir $(BINDIR_DAEMON); fi

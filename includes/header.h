@@ -22,10 +22,10 @@
 #include <netdb.h>
 #include <stdbool.h>
 
-#define PID_FILE "/tmp/packtoring.pid"
-#define LOG_FILE_INTERFACES "/tmp/packtoring_interfaces.log"
-#define LOG_FILE_CUR_INTERFACES "/tmp/packtoring_cur_interfaces.log"
-#define LOG_FILE_IP "/tmp/packtoring_ip.log"
+#define PID_FILE "/var/run/packtoring.pid"
+#define LOG_FILE_INTERFACES "/var/log/packtoring_interfaces.log"
+#define LOG_FILE_CUR_INTERFACES "/var/log/packtoring_cur_interfaces.log"
+#define LOG_FILE_IP "/var/log/packtoring_ip.log"
 
 
 typedef struct	s_ipfile
