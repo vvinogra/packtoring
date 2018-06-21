@@ -3,9 +3,9 @@
 static void	usage(void)
 {
 	printf("Usage: sudo ./packtoring [start] [--help] [show [ip] count]\n"
-		"                         [select iface [iface]] [stat [iface]]\n"
-		"                         [reset [ip,iface]] [uninstall]\n"
-		"                         [show current iface]\n");
+		"                         [stop] [select iface [iface]]\n"
+		"                         [stat [iface]] [reset [ip,iface]]\n"
+		"                         [uninstall] [show current iface]\n");
 	exit(0);
 }
 
