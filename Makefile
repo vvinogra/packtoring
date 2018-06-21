@@ -1,16 +1,15 @@
 CLI_NAME = packtoring
 DAEMON_NAME = daemon
 CC = gcc
-FLAGS = -Wall -Wextra 
-#-Werror
+FLAGS = -Wall -Wextra -Werror
 
 DAEMONDIR = ./src/daemon/
 
 CLIDIR = ./src/cli/
 
-CLIFILES = main.c validation.c show_info.c deletion.c
+CLIFILES = main.c validation.c interfaces.c deletion.c ip.c
 
-DAEMONFILES = main.c initing_daemon.c read_write_files.c log_file.c sniff.c utils.c ft_itoa.c pid_file.c
+DAEMONFILES = main.c initing_daemon.c interfaces_file.c sniff.c utils.c ft_itoa.c pid_file.c ip_file.c
 
 INCLUDE = includes
 HEADER_RELATION = includes/header.h
@@ -18,7 +17,8 @@ HEADER_RELATION = includes/header.h
 BINDIR_DAEMON = ./objDaemon/
 BIN_DAEMON = $(addprefix $(BINDIR_DAEMON), $(DAEMONFILES:.c=.o))
 
-DAEMONFILES_FORCLI = $(BINDIR_DAEMON)initing_daemon.o $(BINDIR_DAEMON)read_write_files.o $(BINDIR_DAEMON)log_file.o $(BINDIR_DAEMON)sniff.o $(BINDIR_DAEMON)utils.o $(BINDIR_DAEMON)ft_itoa.o $(BINDIR_DAEMON)pid_file.c
+DAEMONFILES_FORCLI = $(BINDIR_DAEMON)initing_daemon.o $(BINDIR_DAEMON)interfaces_file.o \
+		$(BINDIR_DAEMON)sniff.o $(BINDIR_DAEMON)utils.o $(BINDIR_DAEMON)ft_itoa.o $(BINDIR_DAEMON)pid_file.o $(BINDIR_DAEMON)ip_file.o
 
 BINDIR_CLI = ./objCli/
 BIN_CLI = $(addprefix $(BINDIR_CLI), $(CLIFILES:.c=.o)) $(DAEMONFILES_FORCLI)
@@ -50,6 +50,7 @@ clean:
 	@echo "\033[32;1mCleaned\033[0m"
 
 fclean: clean
-	@if [ -f "$(NAME)" ]; then rm -rf $(NAME); fi
+	@if [ -f "$(CLI_NAME)" ]; then rm -rf $(CLI_NAME); fi
+	@if [ -f "$(DAEMON_NAME)" ]; then rm -rf $(DAEMON_NAME); fi
 
 re: fclean all

@@ -31,11 +31,7 @@ bool	kill_file_pid(void)
 
 	f = fopen(PID_FILE, "r+");
 	if (f == 0)
-	{
-		if (errno == 13)
-			fprintf(stderr, "%s, try to run with sudo\n", strerror(errno));
-		exit(1);
-	}
+		return (true);
 	char *line = 0;
 	size_t len = 0;
 	getline(&line, &len, f);

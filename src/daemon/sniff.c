@@ -1,37 +1,5 @@
 #include "header.h"
 
-static char	*find_device(void)
-{
-	FILE *f;
-	char *line_without_newline;
-
-	f = fopen(LOG_FILE_CUR_INTERFACES, "r+");
-	char *line = 0;
-	size_t len = 0;
-	getline(&line, &len, f);
-	line_without_newline = malloc(sizeof(char) * (strlen(line) - 1));
-	for (int i = 0; i < (int)strlen(line) - 1; i++)
-		line_without_newline[i] = line[i];
-	line_without_newline[strlen(line) - 1] = 0;
-	free(line);
-	return (line_without_newline);
-}
-
-void clear_ip_parse_file(t_ipfile **ip_info)
-{
-	t_ipfile *tmp = *ip_info;
-
-	while (*ip_info)
-	{
-		tmp = *ip_info;
-		free(tmp);
-		tmp = 0;
-		*ip_info = (*ip_info)->next;
-	}
-	free(*ip_info);
-	*ip_info = 0;
-}
-
 static void	add_ip(struct in_addr ip)
 {
 	FILE *f;
@@ -62,6 +30,7 @@ static void	add_ip(struct in_addr ip)
 static void callback(u_char *args, const struct pcap_pkthdr *pkthdr, const u_char 
 	*packet)
 {
+	(void)pkthdr;
 	char *num_from_file = get_value_of_key_from_file((const char *)args, LOG_FILE_INTERFACES);
 	size_t real_num = atoi(num_from_file);
 	real_num++;
@@ -82,13 +51,10 @@ void sniff(void)
 	bpf_u_int32 maskp;
 	bpf_u_int32 netp;
 
-	dev = find_device();
+	dev = find_cur_interface();
 	pcap_lookupnet(dev, &netp, &maskp, errbuf);
 	descr = pcap_open_live(dev, BUFSIZ, 0, 1000, errbuf);
 	if(descr == NULL)
-	{
-		printf("pcap_open_live(): %s\n", errbuf);
 		exit(1);
-	}
 	pcap_loop(descr, 0, callback, (u_char *)dev);
 }

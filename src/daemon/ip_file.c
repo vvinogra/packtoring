@@ -13,6 +13,21 @@ size_t t_ipfile_getlen(t_ipfile **start)
 	return(count);
 }
 
+void clear_ip_parse_file(t_ipfile **ip_info)
+{
+	t_ipfile *tmp = *ip_info;
+
+	while (*ip_info)
+	{
+		tmp = *ip_info;
+		free(tmp);
+		tmp = 0;
+		*ip_info = (*ip_info)->next;
+	}
+	free(*ip_info);
+	*ip_info = 0;
+}
+
 static void t_ipfile_push_back(t_ipfile **start, struct in_addr ip_to_add)
 {
 	t_ipfile *lst = *start;
@@ -85,4 +100,28 @@ t_ipfile *parse_ip_file(FILE *f)
 	}
 	free(line);
 	return (head);
+}
+
+static void	swap_data_t_ipfile(t_ipfile *a, t_ipfile *b)
+{
+	uint32_t		ip = a->ip;
+	size_t		pack_num = a->pack_num;
+
+	a->ip = b->ip;
+	a->pack_num = b->pack_num;
+
+	b->ip = ip;
+	b->pack_num = pack_num;
+}
+
+void	sort_ip_info(t_ipfile *ip_info)
+{
+	for(t_ipfile *ptr1 = ip_info; ptr1; ptr1 = ptr1->next)
+	{
+		for(t_ipfile *ptr2 = ptr1; ptr2; ptr2 = ptr2->next)
+		{
+			if (ptr1->ip > ptr2->ip)
+				swap_data_t_ipfile(ptr1, ptr2);
+		}
+	}
 }

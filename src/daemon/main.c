@@ -1,6 +1,6 @@
 #include "header.h"
 
-int main(int argc, char **argv)
+int main(void)
 {
 	if (getuid() == 0)
 		initing_deamon();

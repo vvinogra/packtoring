@@ -1,5 +1,13 @@
 #include "header.h"
 
+static int	processing()
+{
+	initing_interfaces_file();
+	check_set_pid_file();
+	sniff();
+	return 0;
+}
+
 pid_t	initing_deamon()
 {
 	pid_t pid;
@@ -22,14 +30,4 @@ pid_t	initing_deamon()
 		processing();
 	}
 	return (pid);
-}
-
-
-int	processing()
-{
-	initing_log_file();
-	initing_cur_log_file();
-	check_set_pid_file();
-	sniff();
-	return 0;
 }

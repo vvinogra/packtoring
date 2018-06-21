@@ -4,7 +4,8 @@ static void	usage(void)
 {
 	printf("Usage: sudo ./packtoring [start] [--help] [show [ip] count]\n"
 		"                         [select iface [iface]] [stat [iface]]\n"
-		"                         [reset [ip,iface]] [uninstall]\n");
+		"                         [reset [ip,iface]] [uninstall]\n"
+		"                         [show current iface]\n");
 	exit(0);
 }
 
@@ -44,6 +45,8 @@ static void	valid_four_argc(char *argv[])
 		show_ip_info(argv[2]);
 	else if (strcmp(argv[1], "select") == 0 && strcmp(argv[2], "iface") == 0)
 		select_new_interface(argv[3]);
+	else if (strcmp(argv[1], "show") == 0 && strcmp(argv[2], "current") == 0 && strcmp(argv[3], "iface") == 0)
+		show_current_iface();
 	else
 		usage();
 }
