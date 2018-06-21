@@ -1,26 +1,27 @@
 #include "header.h"
 
-int	initing_deamon()
+pid_t	initing_deamon()
 {
-	int pid;
+	pid_t pid;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		printf("Error: Start Daemon failed (%s)\n", strerror(errno));
+		fprintf(stderr, "Error: Start Daemon failed (%s)\n", strerror(errno));
 		return -1;
 	}
 	else if (!pid)
 	{
-		// umask(0);
-		// setsid();
-		// chdir("/");
-		// close(STDIN_FILENO);
-		// close(STDOUT_FILENO);
-		// close(STDERR_FILENO);
+		umask(0);
+		setsid();
+		chdir("/");
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		close(STDERR_FILENO);
+		blocking_signals();
 		processing();
 	}
-	return (1);
+	return (pid);
 }
 
 

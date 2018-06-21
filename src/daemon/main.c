@@ -2,12 +2,8 @@
 
 int main(int argc, char **argv)
 {
-	// if (argc == 2)
-	// {
-	// 	valid_interface_arg(argv[1]);
+	if (getuid() == 0)
 		initing_deamon();
-		// system("leaks -s daemon");
-	// }
-	// else
-	// 	printf("ERR: invalid argument\n");
+	else
+		printf("Usage: sudo ./daemon\n");
 }

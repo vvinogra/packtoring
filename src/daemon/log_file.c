@@ -6,10 +6,7 @@ void initing_log_file(void)
 
 	f = fopen(LOG_FILE_INTERFACES, "r+");
 	if (f != 0)
-	{
-		fclose(f);
 		return ;
-	}
 	f = fopen(LOG_FILE_INTERFACES, "w+");
 	struct if_nameindex *if_nidxs = if_nameindex();
 	if (if_nidxs != NULL)
@@ -19,6 +16,7 @@ void initing_log_file(void)
 		{
 			fprintf(f, "%s 0\n", intf->if_name);
 		}
+		free(if_nidxs);
 	}
 	fclose(f);
 }
@@ -29,10 +27,7 @@ void initing_cur_log_file(void)
 
 	f = fopen(LOG_FILE_CUR_INTERFACES, "r+");
 	if (f != 0)
-	{
-		fclose(f);
 		return ;
-	}
 	f = fopen(LOG_FILE_CUR_INTERFACES, "w+");
 	fprintf(f, "eth0\n");
 	fclose(f);

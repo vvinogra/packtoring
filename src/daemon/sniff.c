@@ -17,7 +17,7 @@ static char	*find_device(void)
 	return (line_without_newline);
 }
 
-static void clear_ip_parse_file(t_ipfile **ip_info)
+void clear_ip_parse_file(t_ipfile **ip_info)
 {
 	t_ipfile *tmp = *ip_info;
 
@@ -44,7 +44,8 @@ static void	add_ip(struct in_addr ip)
 		fclose(f);
 		return ;
 	}
-	t_ipfile *ip_info = parse_ip_file(f, ip);
+	t_ipfile *ip_info = parse_ip_file(f);
+	add_ip_to_file(&ip_info, ip);
 	fclose(f);
 	f = fopen(LOG_FILE_IP, "w+");
 	sort_ip_info(ip_info);
@@ -78,15 +79,10 @@ void sniff(void)
 	char *dev;
 	char errbuf[PCAP_ERRBUF_SIZE];
 	pcap_t *descr;
-	// const u_char *packet;
-	// struct pcap_pkthdr hdr;
-	// struct ether_header *eptr;
-	// struct bpf_program fp;
 	bpf_u_int32 maskp;
 	bpf_u_int32 netp;
 
 	dev = find_device();
-
 	pcap_lookupnet(dev, &netp, &maskp, errbuf);
 	descr = pcap_open_live(dev, BUFSIZ, 0, 1000, errbuf);
 	if(descr == NULL)
@@ -94,17 +90,5 @@ void sniff(void)
 		printf("pcap_open_live(): %s\n", errbuf);
 		exit(1);
 	}
-
-	// if(pcap_compile(descr, &fp, argv[1], 0, netp) == -1)
-	// {
-	// 	fprintf(stderr, "Error calling pcap_compile\n");
-	// 	exit(1);
-	// }
-
-	// if(pcap_setfilter(descr, &fp) == -1) {
-	// 	fprintf(stderr, "Error setting filter\n");
-	// 	exit(1);
-	// }
-	// free(dev);
 	pcap_loop(descr, 0, callback, (u_char *)dev);
 }

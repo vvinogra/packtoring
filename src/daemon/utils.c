@@ -7,6 +7,8 @@ char *get_line_by_key(const char *key, char *filename)
 	char *ret;
 	FILE *f = fopen(filename, "r+");
 
+	if (f == 0)
+		initing_log_file();
 	content = get_file_content(filename);
 	needed_line = strstr(content, key);
 	int i;
@@ -30,7 +32,7 @@ char	*get_file_content(const char *const filename)
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
-		write(1, "Wrong filename\n", 15);
+		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 	len = lseek(fd, 0, SEEK_END);
@@ -47,11 +49,12 @@ static void	swap_data(t_ipfile *a, t_ipfile *b)
 {
 	uint32_t		ip = a->ip;
 	size_t		pack_num = a->pack_num;
+
 	a->ip = b->ip;
 	a->pack_num = b->pack_num;
+
 	b->ip = ip;
 	b->pack_num = pack_num;
-
 }
 
 void	sort_ip_info(t_ipfile *ip_info)
@@ -67,3 +70,18 @@ void	sort_ip_info(t_ipfile *ip_info)
 		}
 	}
 }
+
+void	blocking_signals(void)
+{
+	sigset_t sigset;
+	siginfo_t siginfo;
+
+	sigemptyset(&sigset);
+	sigaddset(&sigset, SIGQUIT);
+	sigaddset(&sigset, SIGINT);
+	sigaddset(&sigset, SIGTERM);
+	sigaddset(&sigset, SIGCHLD); 
+	sigaddset(&sigset, SIGUSR1); 
+	sigprocmask(SIG_BLOCK, &sigset, NULL);
+}
+
