@@ -2,7 +2,7 @@
 
 **Description:**
 
-Simple daemon with Cli(Command line interface)
+Simple daemon with CLI(Command line interface)
 
 **Requirements:**
 
@@ -16,7 +16,7 @@ Simple daemon with Cli(Command line interface)
 * `make`
 * `sudo ./daemon or sudo ./packtoring start`
 
-**Cli Commands:**
+**CLI Commands:**
 * `./packtoring start - start sniffing packets from now on from default iface(eth0)`
 * `./packtoring --help - show usage information`
 * `./packtoring show [ip] count - show how many packets were received from [ip]`
